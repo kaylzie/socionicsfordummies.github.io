@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introverted Logic (Ti) | Reference Engine</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* Streamlined Reference Workspace Layout */
+        .workspace-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem;
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: #121214;
+            color: #f0f0f5;
+        }
+        .back-portal-link {
+            display: inline-block;
+            color: #4facfe;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            transition: color 0.2s;
+        }
+        .back-portal-link:hover { color: #f0f0f5; }
+
+        /* Multi-Column Grid System */
+        .profile-dashboard-grid {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 2.5rem;
+            align-items: start;
+        }
+
+        /* Left Side: Essential Metadata Properties Only */
+        .sidebar-matrix-card {
+            background-color: #1e1e24;
+            border: 1px solid #33333f;
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        .sidebar-element-header h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin: 0 0 0.5rem 0;
+        }
+        .info-pill {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.2rem 0.5rem;
+            background-color: rgba(79, 172, 254, 0.1);
+            color: #4facfe;
+            border: 1px solid rgba(79, 172, 254, 0.2);
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+        .matrix-subheading {
+            font-size: 0.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: #a0a0b0;
+            letter-spacing: 0.5px;
+            margin: 1.5rem 0 0.5rem 0;
+            border-bottom: 1px solid #2a2a32;
+            padding-bottom: 0.25rem;
+        }
+        .data-property-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            padding: 0.35rem 0;
+        }
+        .prop-label { color: #a0a0b0; }
+        .prop-val { font-weight: 600; }
+
+        /* Right Side: Tab Interface Cards */
+        .main-content-area {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        .dashboard-card {
+            background-color: #1e1e24;
+            border: 1px solid #33333f;
+            border-radius: 12px;
+            padding: 2rem;
+        }
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #f0f0f5;
+        }
+
+        /* Pure CSS Source Tabs Navigation Engine */
+        .tab-menu-strip {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            border-bottom: 1px solid #33333f;
+            padding-bottom: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        .tab-select-btn {
+            padding: 0.5rem 0.8rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #a0a0b0;
+            background-color: #121214;
+            border: 1px solid #33333f;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .tab-input-gate { display: none !important; }
+        .source-panel { display: none; }
+
+        /* Tab Visibility Logic Mapping */
+        #t-scs:checked ~ .tab-menu-strip label[for="t-scs"],
+        #t-sss:checked ~ .tab-menu-strip label[for="t-sss"],
+        #t-wss:checked ~ .tab-menu-strip label[for="t-wss"],
+        #t-shs:checked ~ .tab-menu-strip label[for="t-shs"],
+        #t-talanov:checked ~ .tab-menu-strip label[for="t-talanov"],
+        #t-sas:checked ~ .tab-menu-strip label[for="t-sas"] {
+            color: #121214;
+            background-color: #4facfe;
+            border-color: #4facfe;
+        }
+        #t-scs:checked ~ .v-scs, #t-sss:checked ~ .v-sss, #t-wss:checked ~ .v-wss,
+        #t-shs:checked ~ .v-shs, #t-talanov:checked ~ .v-talanov, #t-sas:checked ~ .v-sas {
+            display: block;
+        }
+
+        /* Type Manifestation Stack Grid */
+        .type-manifestation-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .type-block {
+            background-color: #121214;
+            border: 1px solid #2a2a32;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+        .type-block h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #4facfe;
+            margin: 0 0 0.5rem 0;
+            display: flex;
+            justify-content: space-between;
+        }
+        .type-pos { font-size: 0.75rem; color: #a0a0b0; font-weight: normal; }
+        .type-block p { font-size: 0.85rem; color: #a0a0b0; line-height: 1.5; margin: 0; }
+        .placeholder-note { font-style: italic; color: #6e6e7e; font-size: 0.9rem; }
+
+        @media (max-width: 950px) {
+            .profile-dashboard-grid { grid-template-columns: 1fr; }
+            .type-manifestation-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="workspace-wrapper">
+        
+        <!-- LINK TO DIRECTORY HOME -->
+        <a href="../index.html" class="back-portal-link">← Return to Master Directory</a>
+
+        <div class="profile-dashboard-grid">
+            
+            <!-- LEFT COLUMN: SIDEBAR PROPERTY SHEET -->
+            <aside class="sidebar-matrix-card">
+                <div class="sidebar-element-header">
+                                    <!-- GLOWING TECH-BADGE DUAL-ICON HEADER (Ti SPECIFIC) -->
+                <div class="sidebar-element-header" style="border-bottom: 2px solid #33333f; padding-bottom: 1.5rem; margin-bottom: 1.5rem;">
+                    
+                    <!-- Large Symbol Visual Canvas Lane -->
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem;">
+                        
+                        <!-- Model A: Smooth Dark Container with Glowing Blue Outline Square -->
+                        <div title="Model A: Structural Logic (Ti)" style="display: flex; align-items: center; justify-content: center; width: 56px; height: 56px; background-color: #16161a; border: 1px solid #2a2a32; border-radius: 12px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);">
+                            <!-- Pure CSS Blue Outline Square -->
+                            <div style="width: 24px; height: 24px; border: 3px solid #4facfe; border-radius: 3px; box-shadow: 0 0 10px rgba(79, 172, 254, 0.4);"></div>
+                        </div>
+                        
+                        <!-- Decorative Link Splitter Line -->
+                        <div style="width: 1px; height: 32px; background-color: #33333f;"></div>
+                        
+                        <!-- Model G: Smooth Dark Container with Glowing Blue Monospace Variable L -->
+                        <div title="Model G: Structural Variable (L)" style="display: flex; align-items: center; justify-content: center; width: 56px; height: 56px; background-color: #16161a; border: 1px solid #2a2a32; border-radius: 12px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);">
+                            <!-- Monospace Blue L Symbol -->
+                            <span style="font-family: monospace; font-size: 1.8rem; font-weight: 900; color: #4facfe; line-height: 1; text-shadow: 0 0 10px rgba(79, 172, 254, 0.5);">L</span>
+                        </div>
+
+                    </div>
+
+                    
+                    <h1 style="font-size: 2rem; font-weight: 800; margin: 0; color: #f0f0f5; letter-spacing: -0.5px;">Introverted Logic</h1>
+                </div>
+
+                <div class="matrix-subheading">Parameters</div>
+                <div class="data-property-list">
+                    <div class="data-property-row"><span class="prop-label">Aspect Type</span><span class="prop-val">Rational / Static</span></div>
+                    <div class="data-property-row"><span class="prop-label">Model A Symbol</span><span class="prop-val">⬜ White Square</span></div>
+                    <div class="data-property-row"><span class="prop-label">Model G Letter</span><span class="prop-val">L (Laws)</span></div>
+                </div>
+
+                <div class="matrix-subheading">Hemispheres</div>
+                <div class="data-property-list">
+                    <div class="data-property-row"><span class="prop-label">Eastern Focus</span><span class="prop-val">Structural Systems</span></div>
+                    <div class="data-property-row"><span class="prop-label">Western Focus</span><span class="prop-val">Semantic Frameworks</span></div>
+                </div>
+            </aside>
+            <!-- RIGHT COLUMN: DETAILED ANALYSIS COMPONENT BOARDS -->
+            <main class="main-content-area">
+                
+                <!-- BOARD 1: ORIGINAL SOURCES DOCUMENTATION ENGINE -->
+                <section class="dashboard-card">
+                    <h2 class="card-title">Original Source Interpretations</h2>
+                    
+                    <!-- MASTER SELECTION RADIO TRIGGER PIPES -->
+                    <input type="radio" id="t-scs" name="src-tabs" class="tab-input-gate" checked>
+                    <input type="radio" id="t-sss" name="src-tabs" class="tab-input-gate">
+                    <input type="radio" id="t-wss" name="src-tabs" class="tab-input-gate">
+                    <input type="radio" id="t-shs" name="src-tabs" class="tab-input-gate">
+                    <input type="radio" id="t-talanov" name="src-tabs" class="tab-input-gate">
+                    <input type="radio" id="t-sas" name="src-tabs" class="tab-input-gate">
+
+                    <nav class="tab-menu-strip">
+                        <label for="t-scs" class="tab-select-btn">SCS (Augustinavičiūtė)</label>
+                        <label for="t-sss" class="tab-select-btn">SSS (Eglit)</label>
+                        <label for="t-wss" class="tab-select-btn">WSS (Aaron)</label>
+                        <label for="t-shs" class="tab-select-btn">SHS (Gulenko)</label>
+                        <label for="t-talanov" class="tab-select-btn">Talanov</label>
+                        <label for="t-sas" class="tab-select-btn">SAS (Tangemann)</label>
+                    </nav>
+
+                    <!-- ========================================== -->
+                    <!-- 1. SCS (AUGUSTINAVIČIŪTĖ) HOUSING CONTAINER -->
+                    <!-- ========================================== -->
+                    <div class="source-panel v-scs">
+                        <div style="border-left: 3px solid #ff5858; padding-left: 1.25rem; margin-bottom: 1.5rem; background-color: rgba(255, 88, 88, 0.02); padding-top: 0.75rem; padding-bottom: 0.75rem; border-radius: 0 8px 8px 0;">
+                            <span style="font-size: 0.75rem; font-weight: 800; color: #ff5858; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 0.25rem;">Aushra Augustinavičiūtė</span>
+                            <span style="font-size: 0.85rem; font-style: italic; color: #6e6e7e;">Original Source: On the Dual Nature of Man (1981)</span>
+                        </div>
+
+                        <div style="color: #a0a0b0; font-size: 0.95rem; line-height: 1.65; display: flex; flex-direction: column; gap: 1.25rem;">
+                            <p>We classify as <strong>logical those feelings that arise when one object is compared with another</strong> on the basis of some objective parameter. For example, the sense of distance, weight, volume, value, strength, quality. These are feelings of objective evaluation, which in certain cases contributes to the activation or passivation of the person experiencing them.</p>
+                            <p>The direct information received through the first signal system is registered by the individual as a <strong>sense of the proportionality and disproportionality of objects</strong>, a sense of equilibrium or disequilibrium between them, a sense of understanding or not understanding the advantages of one object over another. This includes all feelings that stem from objects and phenomena being known or unknown: curiosity, respect, fear, the sense of logicality/illogicality. And that includes the sense of one’s own strength or powerlessness before this or that object. We will call this whole group of feelings logical. Their sum is a person’s sense of logic. There are people with a more or less developed sense of logic.</p>
+                            <p>It can be said that logical feelings carry information about the <strong>known-ness or unknown-ness, comparability or incomparability of objects, and about the presence or absence of equilibrium between them</strong>. As well as about space and the object’s place in it. They are distinguished by objectivity, because they do not take into account the interests and needs of the person themself, but only the ratio of objective qualities.</p>
+                            <p>This aspect of perception determines a person’s ability or inability to see <strong>objective, logical relations between objects or their component parts</strong>.</p>
+                            <p>When this aspect of perception is the <strong>leading one</strong>, the person is distinguished by their logicality in assessing the interrelations of the <strong>objective static world, that is, the world of objects</strong>. Also by the ability to change, in a desired direction, the interrelations between the qualities of different objects, and through this also to act upon the objects themselves, as the bearers of those qualities.</p>
+                            <p>A correct assessment of one’s own interrelations with other objects gives the person knowledge of which objects should be avoided and which can be “hunted.” They are distinguished by the ability to <strong>set their own logic, that is, their own cognition of the objective world</strong>, of the regularities and ratios of the objective world, against the knowledge of other people. They are distinguished by the skill of forming and perfecting not only their own cognition of the objective world but also the cognition of other people. This gives a sense of strength upon colliding with the logic or illogicality of other people.</p>
+                        </div>
+                        <!-- COMPREHENSIVE FUNCTIONAL BLOCKS MATRIX PLACED INSIDE SCS ONLY -->
+                        <div style="margin-top: 3.5rem; border-top: 1px solid #33333f; padding-top: 2.5rem;">
+                            <h2 style="font-size: 1.35rem; font-weight: 700; color: #f0f0f5; margin: 0 0 0.5rem 0;">The Functional Blocks: How Ti Manifests by Position</h2>
+                            <p style="color: #a0a0b0; font-size: 0.9rem; line-height: 1.5; margin: 0 0 1.5rem 0;">In Classical Socionics, the behavior of Introverted Logic changes drastically depending on its structural dimension and block placement within the Model A consciousness stack.</p>
+                            
+                            <div class="type-manifestation-grid">
+                                <div class="type-block" style="grid-column: span 2;">
+                                    <h4 style="color: #4facfe;">1. The Leading / Base Function (Slot 1) <span class="type-pos">Strong, Valued, Conscious</span></h4>
+                                    <span style="font-size: 0.8rem; font-weight: 700; color: #f0f0f5; display: block; margin-bottom: 0.4rem;">Types: LII (INTj / Analyst) and LSI (ISTj / Inspector)</span>
+                                    <p style="margin-bottom: 0.5rem;"><strong>Manifestation:</strong> Ti operates as the core program of their worldview. They view reality through strict structural rules and crave internal logical coherence. They evaluate arguments purely on whether conclusions logically flow from their premises rather than relying on external, chaotic data.</p>
+                                    <p style="font-size: 0.8rem; border-left: 2px solid #4facfe; padding-left: 0.75rem; color: #a0a0b0;"><em>Nuance:</em> The LII uses Ti globally to seek universal justice, building complex philosophical or theoretical systems (+Ne). The LSI applies Ti defensively to stabilize concrete space, enforcing rules, systems, and strict hierarchies in their immediate environment (+Se).</p>
+                                </div>
+                                <div class="type-block" style="grid-column: span 2;">
+                                    <h4 style="color: #4facfe;">2. The Creative Function (Slot 2) <span class="type-pos">Strong, Valued, Conscious</span></h4>
+                                    <span style="font-size: 0.8rem; font-weight: 700; color: #f0f0f5; display: block; margin-bottom: 0.4rem;">Types: ILE (ENTp / Searcher) and SLE (ESTp / Marshal)</span>
+                                    <p style="margin-bottom: 0.5rem;"><strong>Manifestation:</strong> Ti serves as a flexible tool to achieve their primary goal. Instead of treating systems as permanent or rigid, they invent, bend, or manipulate logical frameworks to explain a new phenomenon or command a situation.</p>
+                                    <p style="font-size: 0.8rem; border-left: 2px solid #4facfe; padding-left: 0.75rem; color: #a0a0b0;"><em>Nuance:</em> The ILE generates novel theories and explanations to map out new possibilities (+Ne). The SLE organizes people and resources dynamically, engineering tactical structures to win an objective (+Se).</p>
+                                </div>
+                                <div class="type-block">
+                                    <h4 style="color: #a0a0b0;">3. The Role Function (Slot 3) <span class="type-pos">Weak, Unvalued, Conscious</span></h4>
+                                    <span style="font-size: 0.8rem; font-weight: 700; color: #f0f0f5; display: block; margin-bottom: 0.4rem;">Types: EII (INFj / Humanist) and ESI (ISFj / Guardian)</span>
+                                    <p style="margin-bottom: 0.5rem;"><strong>Manifestation:</strong> Ti acts as a defensive mask. Under public evaluation or stress, these types try to appear highly logical, detached, and rule-abiding to fit societal expectations. However, they easily grow tense or annoyed if forced to maintain deep analytical debate.</p>
+                                    <p style="font-size: 0.8rem; border-left: 2px solid #33333f; padding-left: 0.75rem; color: #a0a0b0;"><em>Nuance:</em> They fundamentally make decisions based on internal ethics and personal relationships (Fi). If their logic is scrutinized, they will try to cite "bookish" standard definitions before eventually retreating to moral justifications.</p>
+                                </div>
+                                <div class="type-block">
+                                    <h4 style="color: #ff5858;">4. The Vulnerable / PoLR Function (Slot 4) <span class="type-pos">Weak, Unvalued, Conscious</span></h4>
+                                    <span style="font-size: 0.8rem; font-weight: 700; color: #f0f0f5; display: block; margin-bottom: 0.4rem;">Types: IEE (ENFp / Advisor) and SEE (ESFp / Politician)</span>
+                                    <p style="margin-bottom: 0.5rem;"><strong>Manifestation:</strong> This is the absolute blind spot. They reject complex, detached theoretical systems or dogmatic rules that restrict their freedom. Bureaucracy, deep algebraic proofs, or dry structural analysis feel deeply exhausting and restrictive.</p>
+                                    <p style="font-size: 0.8rem; border-left: 2px solid #ff5858; padding-left: 0.75rem; color: #a0a0b0;"><em>Nuance:</em> They prefer raw human context, motivation, and action. If a logical system does not have an immediate, practical application or human component, they will completely bypass it or view it as an unnecessary limitation.</p>
+                                </div>
+                                <div class="type-block">
+                                    <h4 style="color: #4facfe;">5. The Suggestive / Dual-Seeking Function (Slot 5) <span class="type-pos">Weak, Valued, Unconscious</span></h4>
+                                    <span style="font-size: 0.8rem; font-weight: 700; color: #f0f0f5; display: block; margin-bottom: 0.4rem;">Types: ESE (ESFj / Bonvivant) and EIE (ENFj / Mentor)</span>
+                                    <p style="margin-bottom: 0.5rem;"><strong>Manifestation:</strong> They admire people who present clear, structured, and unambiguous explanations. Because their own inner logical landscape feels chaotic, they intensely crave external clarity, order, and classification systems to anchor them.</p>
+                                    <p style="font-size: 0.8rem; border-left: 2px solid #4facfe; padding-left: 0.75rem; color: #a0a0b0;"><em>Nuance:</em> Providing them with simple, clean formulas or structured definitions brings them deep psychological relief, easing their strong emotional fluctuations.</p>
+                                </div>
+                                <div class="type-block">
+                                    <h4 style="color: #4facfe;">6. The Mobilizing / Activating Function (Slot 6) <span class="type-pos">Weak, Valued, Unconscious</span></h4>
+                                    <span style="font-size: 0.8rem; font-weight: 700; color: #f0f0f5; display: block; margin-bottom: 0.4rem;">Types: SEI (ISFp / Mediator) and IEI (INFp / Romantic)</span>
+                                    <p style="margin-bottom: 0.5rem;"><strong>Manifestation:</strong> They are drawn to structural analysis, philosophy, and intellectual systems, using them to gain stability. They feel secretly proud when they are able to accurately categorize something or follow a logical argument, though their grasp on it is self-taught and occasionally unstable.</p>
+                                    <p style="font-size: 0.8rem; border-left: 2px solid #4facfe; padding-left: 0.75rem; color: #a0a0b0;"><em>Nuance:</em> They are mobilized to act when someone provides a clear, consistent, and structured framework for how their world operates, which helps ground their highly fluid internal states.</p>
+                                </div>
+                                <div class="type-block" style="grid-column: span 2;">
+                                    <h4 style="color: #a0a0b0;">7. The Ignoring / Limiting Function (Slot 7) <span class="type-pos">Strong, Unvalued, Conscious</span></h4>
+                                    <span style="font-size: 0.8rem; font-weight: 700; color: #f0f0f5; display: block; margin-bottom: 0.4rem;">Types: LSE (ESTj / Director) and LIE (ENTj / Pioneer)</span>
+                                    <p style="margin-bottom: 0.5rem;"><strong>Manifestation:</strong> These types are deeply capable of understanding structures and classifications, but they find pure theoretical logic pointless. They deliberately ignore internal consistency in favor of Extroverted Logic (Te)—which prioritizes facts, utility, efficiency, and real-world implementation.</p>
+                                    <p style="font-size: 0.8rem; border-left: 2px solid #33333f; padding-left: 0.75rem; color: #a0a0b0;"><em>Nuance:</em> If someone bogs down a meeting with pedantic rule-following or semantic definitions, they will use their strong Ti to shut the argument down, steering the conversation back to "what actually works."</p>
+                                </div>
+                                <div class="type-block" style="grid-column: span 2;">
+                                    <h4 style="color: #a0a0b0;">8. The Demonstrative / Id Function (Slot 8) <span class="type-pos">Strong, Unvalued, Unconscious</span></h4>
+                                    <span style="font-size: 0.8rem; font-weight: 700; color: #f0f0f5; display: block; margin-bottom: 0.4rem;">Types: SLI (ISTp / Craftsman) and ILI (INTp / Critic)</span>
+                                    <p style="margin-bottom: 0.5rem;"><strong>Manifestation:</strong> Ti operates silently and automatically in the background. They have a flawless, effortless grasp of structures, flaws, and logical consistency. However, they do not care to voice or validate it unless they see an error.</p>
+                                    <p style="font-size: 0.8rem; border-left: 2px solid #33333f; padding-left: 0.75rem; color: #a0a0b0;"><em>Nuance:</em> They naturally tear apart inconsistent theories or bad arguments with sharp, quiet criticisms, but they prefer to spend their active energy exploring external trends or crafting physical comfort.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- PENUTUP KONTAINER TAB SCS YANG AMAN -->
+
+                        
+                    <!-- ========================================== -->
+                    <!-- 2. SSS (EGLIT) SOURCE PANEL: SECTION DATA  -->
+                    <!-- ========================================== -->
+                    <div class="source-panel v-sss">
+                        <!-- Lineage & Source Header -->
+                        <div style="border-left: 3px solid #ff5858; padding-left: 1.25rem; margin-bottom: 1.5rem; background-color: rgba(255, 88, 88, 0.02); padding-top: 0.75rem; padding-bottom: 0.75rem; border-radius: 0 8px 8px 0;">
+                            <span style="font-size: 0.75rem; font-weight: 800; color: #ff5858; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 0.25rem;">School of System Socionics (SSS)</span>
+                            <span style="font-size: 0.85rem; font-style: italic; color: #6e6e7e;">Foundational Framework: Vladimir Ermak & Irina Eglit</span>
+                        </div>
+
+                        <!-- Core Content Section -->
+                        <div style="color: #a0a0b0; font-size: 0.95rem; line-height: 1.65; display: flex; flex-direction: column; gap: 1.5rem;">
+                            <p>In the School of System Socionics (SSS) founded by Vladimir Ermak and expanded by Irina Eglit, Introverted Logic (Ti/L) is defined as the information aspect of <strong>"System" or "Structural Logic."</strong> Ermak describes the relational component of objects as a system involving interacting elements with direct and feedback loops, while Eglit emphasizes that this static aspect involves mentally representing and constructing internal structures, hierarchies, and laws.</p>
+
+                            <p>In SSS, the signs attached to functions (+ and -) do not represent "good" or "bad." Instead, they define specific operational attributes: <em>Quality</em> (competence zone), <em>Scale</em> (scope of application), <em>Direction</em> (vector of attention), and <em>Distance</em>. The fundamental difference between +Ti (Plus Introverted Logic) and -Ti (Minus Introverted Logic) comes down to the scope of their structural competence and how they approach systemic boundaries.</p>
+
+                            <!-- DIRECT COMPARISON MATRIX CHART MODULE -->
+                            <div style="background-color: #121214; border: 1px solid #33333f; border-radius: 8px; padding: 1.25rem; margin: 0.5rem 0; overflow-x: auto;">
+                                <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem; min-width: 600px;">
+                                    <thead>
+                                        <tr style="border-bottom: 2px solid #33333f;">
+                                            <th style="padding: 0.75rem 0.5rem; color: #a0a0b0; font-weight: 600; width: 15%;">Parameter</th>
+                                            <th style="padding: 0.75rem 0.5rem; color: #4facfe; font-weight: 700; width: 42.5%;">+Ti (Plus Introverted Logic)</th>
+                                            <th style="padding: 0.75rem 0.5rem; color: #ff5858; font-weight: 700; width: 42.5%;">-Ti (Minus Introverted Logic)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="border-bottom: 1px solid #2a2a32; vertical-align: top;">
+                                            <td style="padding: 0.9rem 0.5rem; color: #f0f0f5; font-weight: 700;">Quality</td>
+                                            <td style="padding: 0.9rem 0.5rem; color: #a0a0b0;"><strong>Competence strictly in the positive zone.</strong> Focuses on correctness, internal harmony, rules, and alignment. It is incompetent in the negative zone (absurdity, structural flaws) and attempts to strictly avoid or completely reject it.</td>
+                                            <td style="padding: 0.9rem 0.5rem; color: #a0a0b0;"><strong>Competence in both positive and negative zones.</strong> Easily handles structural errors, chaos, loopholes, exceptions, and systemic unfairness. It handles data by separating or transforming the negative.</td>
+                                        </tr>
+                                        <tr style="border-bottom: 1px solid #2a2a32; vertical-align: top;">
+                                            <td style="padding: 0.9rem 0.5rem; color: #f0f0f5; font-weight: 700;">Scale</td>
+                                            <td style="padding: 0.9rem 0.5rem; color: #a0a0b0;"><strong>Local and concrete.</strong> Highly detailed, specific, and hyper-focused on the inner mechanics of a single, defined system.</td>
+                                            <td style="padding: 0.9rem 0.5rem; color: #a0a0b0;"><strong>Global and abstract.</strong> Looks at the universal blueprint, overarching laws, and cosmic or overarching structures.</td>
+                                        </tr>
+                                        <tr style="border-bottom: 1px solid #2a2a32; vertical-align: top;">
+                                            <td style="padding: 0.9rem 0.5rem; color: #f0f0f5; font-weight: 700;">Direction</td>
+                                            <td style="padding: 0.9rem 0.5rem; color: #a0a0b0;"><strong>Inward.</strong> Tends to protect, defend, and preserve the stability inside its specific system.</td>
+                                            <td style="padding: 0.9rem 0.5rem; color: #a0a0b0;"><strong>Outward.</strong> Aims to expand, cross boundaries, and structurally capture the external environment.</td>
+                                        </tr>
+                                        <tr style="vertical-align: top;">
+                                            <td style="padding: 0.9rem 0.5rem; color: #f0f0f5; font-weight: 700;">Distance</td>
+                                            <td style="padding: 0.9rem 0.5rem; color: #a0a0b0;"><strong>Close.</strong> Operates optimally on immediate connections and nearby structural details.</td>
+                                            <td style="padding: 0.9rem 0.5rem; color: #a0a0b0;"><strong>Far.</strong> Operates optimally on high-level macro-relationships and long-range abstractions.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- COMPREHENSIVE 16-TYPE MANIFESTATION HUB PLACED DIRECTLY INSIDE SSS -->
+                            <div style="margin-top: 3.5rem; border-top: 1px solid #33333f; padding-top: 2.5rem;">
+                                <h2 style="font-size: 1.35rem; font-weight: 700; color: #f0f0f5; margin: 0 0 0.5rem 0;">Manifestation of Ti+ and Ti- Across All 16 Types</h2>
+                                <p style="color: #a0a0b0; font-size: 0.9rem; line-height: 1.5; margin: 0 0 1.5rem 0;">The 16 types are split equally between those whose psyche processes +Ti and those who process -Ti. Their manifestation depends entirely on the dimension (1D to 4D) and the block position within Model A.</p>
+                                
+                                <h3 style="font-size: 1.05rem; font-weight: 700; color: #4facfe; margin: 1.5rem 0 1rem 0; text-transform: uppercase; letter-spacing: 0.5px;">1. Types with +Ti (Local, Detail-Oriented, Correctness-Seeking Logic)</h3>
+                                <div class="type-manifestation-grid">
+                                    <div class="type-block">
+                                        <h4>LSI (Maxim Gorky) <span class="type-pos">Function 1 (Base) — 4D Mental</span></h4>
+                                        <p>Deeply processes, establishes, and maintains highly detailed, specific local rules, strict guidelines, and sharp structural hierarchies.</p>
+                                    </div>
+                                    <div class="type-block">
+                                        <h4>SLE (Zhukov) <span class="type-pos">Function 2 (Creative) — 3D Mental</span></h4>
+                                        <p>Actively designs and manipulates specific local regulations, logical plans, and systemic parameters as tactical tools to execute situational authority.</p>
+                                    </div>
+                                    <div class="type-block">
+                                        <h4>EII (Dostoevsky) <span class="type-pos">Function 3 (Role) — 2D Mental</span></h4>
+                                        <p>Strictly tries to mimic and align with standardized instructions, official rules, and standard operating procedures to maintain formal public competence.</p>
+                                    </div>
+                                    <div class="type-block">
+                                        <h4>IEE (Huxley) <span class="type-pos">Function 4 (Vulnerable) — 1D Mental</span></h4>
+                                        <p>Highly sensitive to structural chaos; experiences severe distress when forced to unpack local logical systems, demanding perfectly clear, uncontradictory instructions.</p>
+                                    </div>
+                                    <div class="type-block">
+                                        <h4>ESE (Hugo) <span class="type-pos">Function 5 (Suggestive) — 1D Vital</span></h4>
+                                        <p>Subconsciously craves and welcomes perfectly clean, clear, structured information and unambiguous local rules to bring clarity into their environment.</p>
+                                    </div>
+                                    <div class="type-block">
+                                        <h4>SEI (Dumas) <span class="type-pos">Function 6 (Activating) — 2D Vital</span></h4>
+                                        <p>Motivated by neat local organization; feels energized and comfortable when things are systematically categorized or filed properly around them.</p>
+                                    </div>
+                                    <div class="type-block">
+                                        <h4>LIE (Jack London) <span class="type-pos">Function 7 (Ignoring) — 3D Vital</span></h4>
+                                        <p>Effortlessly tracks background structural hierarchies and specific rule sets, but bypasses micro-regulations to focus on overarching dynamic logic (Te).</p>
+                                    </div>
+                                    <div class="type-block">
+                                        <h4>ILI (Balzac) <span class="type-pos">Function 8 (Demonstrative) — 4D Vital</span></h4>
+                                        <p>Automatically, flawlessly processes complex local datasets, schemas, and technical files, utilizing internal structures in the background without needing to loudly broadcast them.</p>
+                                    </div>
+                                </div>
+
+                                <h3 style="font-size: 1.05rem; font-weight: 700; color: #ff5858; margin: 2.5rem 0 1rem 0; text-transform: uppercase; letter-spacing: 0.5px;">2. Types with -Ti (Global, Abstract, Universally Adaptable Logic)</h3>
+                                <div class="type-manifestation-grid">
+                                    <div class="type-block">
+                                        <h4>LII (Robespierre) <span class="type-pos">Function 1 (Base) — 4D Mental</span></h4>
+                                        <p>Conceptualizes massive, global, all-encompassing theoretical architectures and systemic laws; fully competent in handling contradictions and structural flaws.</p>
+                                    </div>
+                                    <div class="type-block">
+                                        <h4>ILE (Don Quixote) <span class="type-pos">Function 2 (Creative) — 3D Mental</span></h4>
+                                        <p>Flexibly deconstructs and reframes global schemas, breaking convention to create alternative structural possibilities and sweeping intellectual paradigms.</p>
+                                    </div>
+                                    <div class="type-block">
+                                        <h4>ESI (Dreiser) <span class="type-pos">Function 3 (Role) — 2D Mental</span></h4>
+                                        <p>Standardizes universal codes of conduct or broad structural fairness, attempting to apply global boundaries to logic, though overextended by deep theoretical abstractions.</p>
+                                    </div>
+                                    <div class="type-block">
+                                        <h4>SEE (Napoleon) <span class="type-pos">Function 4 (Vulnerable) — 1D Mental</span></h4>
+                                        <p>Rejects complex global tracking, broad bureaucratic paperwork, and high-level theoretical systems; experiences mental fatigue when tracking multi-layered workflows.</p>
+                                    </div>
+                                    <div class="type-block">
+                                        <h4>EIE (Hamlet) <span class="type-pos">Function 5 (Suggestive) — 1D Vital</span></h4>
+                                        <p>Attracted to grand, global ideologies, expansive philosophies, and unified systems of thought; uses these grand concepts to ground their emotional world.</p>
+                                    </div>
+                                    <div class="type-block">
+                                        <h4>IEI (Yesenin) <span class="type-pos">Function 6 (Activating) — 2D Vital</span></h4>
+                                        <p>Energized by sweeping theoretical insights, grand systemic ideas, or abstract global systems, which help them map out ideological trends over time.</p>
+                                    </div>
+                                    <div class="type-block">
+                                        <h4>LSE (Stierlitz) <span class="type-pos">Function 7 (Ignoring) — 3D Vital</span></h4>
+                                        <p>Innately possesses a powerful background grasp of global structural dynamics, but suppresses pure theoretical modeling to focus on real-world practical operations.</p>
+                                    </div>
+                                    <div class="type-block">
+                                        <h4>SLI (Gaben) <span class="type-pos">Function 8 (Demonstrative) — 4D Vital</span></h4>
+                                        <p>Flawlessly and effortlessly handles the underlying macro-structures of physical reality, ignoring superficial local protocols (+Ti) because they inherently understand the global blueprint.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </section>
+
+                        </div>
+                    </div>
+
+                    </div>
+
+                    <div class="source-panel v-wss">
+                        <p class="placeholder-note">[Insert World Socionics Society definitions and cognitive behavioral mapping frameworks here...]</p>
+                    </div>
+
+                    <div class="source-panel v-shs">
+                        <p class="placeholder-note">[Insert Victor Gulenko's original structural energy laws and system stability literature citations here...]</p>
+                    </div>
+
+                    <div class="source-panel v-talanov">
+                        <p class="placeholder-note">[Insert Victor Talanov's statistical survey descriptions and empirical distribution values here...]</p>
+                    </div>
+
+                    <div class="source-panel v-sas">
+                        <p class="placeholder-note">[Insert School of Associative Socionics conceptual profiles linking Ti to geometric art designs here...]</p>
+                    </div>
+                </section>

@@ -1,0 +1,362 @@
+/* ==========================================================================
+   1. Universal Core Variables & Reset Frames
+   ========================================================================== */
+:root {
+    --bg-primary: #121214;
+    --bg-surface: #1e1e24;
+    --bg-accent: #2a2a32;
+    --text-main: #f0f0f5;
+    --text-muted: #a0a0b0;
+    --color-logic: #4facfe;
+    --color-ethics: #ff5858;
+    --color-sensing: #43e97b;
+    --color-intuition: #c678dd;
+    --border-color: #33333f;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-main);
+    font-family: system-ui, -apple-system, sans-serif;
+    padding-bottom: 5rem;
+}
+
+body > input[type="radio"] {
+    display: none !important;
+}
+
+.homepage-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+}
+
+.master-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.brand-badge {
+    display: inline-block;
+    background-color: var(--bg-accent);
+    padding: 0.4rem 1rem;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+}
+
+.master-header h1 {
+    font-size: 2.6rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.subtitle {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    max-width: 700px;
+    margin: 1.5rem auto 0 auto;
+    line-height: 1.6;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid var(--color-intuition);
+    padding-left: 0.75rem;
+}
+
+/* ==========================================================================
+   2. Components: Notation Switch, Table Matrix, & Core Directory
+   ========================================================================== */
+.notation-toggle-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.toggle-label {
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: var(--text-muted);
+    text-transform: uppercase;
+}
+
+.toggle-switch-wrapper {
+    position: relative;
+    display: flex;
+    background-color: var(--bg-accent);
+    border: 1px solid var(--border-color);
+    padding: 3px;
+    border-radius: 50px;
+    width: 280px;
+}
+
+.switch-btn {
+    flex: 1;
+    text-align: center;
+    padding: 0.5rem 0;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    cursor: pointer;
+    z-index: 3;
+    transition: color 0.2s;
+}
+
+.switch-slider-pill {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    bottom: 3px;
+    width: calc(50% - 3px);
+    background-color: var(--text-main);
+    border-radius: 50px;
+    z-index: 2;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.models-matrix-section { margin-bottom: 4rem; }
+.models-table-wrapper {
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: var(--bg-surface);
+}
+
+.models-layout-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 0.9rem;
+}
+
+.models-layout-table th, .models-layout-table td {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.models-layout-table th {
+    background-color: var(--bg-accent);
+    font-weight: 700;
+    color: var(--text-main);
+    text-transform: uppercase;
+    font-size: 0.8rem;
+}
+
+.models-layout-table tr:last-child td { border-bottom: none; }
+.model-name-cell { font-weight: 800; color: var(--color-logic); width: 15%; }
+.method-cell { font-weight: 600; color: var(--text-main); width: 25%; }
+
+.elements-matrix-section { margin-bottom: 4rem; }
+.ime-directory-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+.ime-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.ime-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--theme-color);
+}
+
+.ime-visual-block {
+    width: 60px;
+    height: 60px;
+    min-width: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+}
+
+.classical-icon svg { width: 28px; height: 28px; display: block; }
+.classical-icon { fill: none; stroke: var(--theme-color); stroke-width: 2.5px; }
+.classical-icon.filled { fill: var(--theme-color); stroke: none; }
+.modelg-icon { font-size: 1.6rem; font-weight: 800; color: var(--theme-color); font-family: monospace; }
+
+.ime-meta h2 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-main);
+}
+
+.badge-code {
+    font-size: 0.75rem;
+    background-color: var(--bg-accent);
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    color: var(--text-muted);
+    font-weight: normal;
+}
+
+.ime-meta p { 
+    font-size: 0.85rem; 
+    color: var(--text-muted); 
+    line-height: 1.4; 
+}
+
+.logic-theme     { --theme-color: var(--color-logic); }
+.ethics-theme    { --theme-color: var(--color-ethics); }
+.sensing-theme   { --theme-color: var(--color-sensing); }
+.intuition-theme { --theme-color: var(--color-intuition); }
+
+/* ==========================================================================
+   3. Schools Bento Grid & Global Pop-Up Overlay Engine
+   ========================================================================== */
+.schools-bento-section { margin-top: 4rem; }
+.bento-container-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+.bento-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+.bento-card.span-2 { grid-column: span 2; }
+.bento-badge {
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+.bento-badge.paradigm-a { background-color: rgba(79, 172, 254, 0.15); color: var(--color-logic); }
+.bento-badge.paradigm-g { background-color: rgba(255, 88, 88, 0.15); color: var(--color-ethics); }
+.bento-badge.paradigm-indie { background-color: rgba(198, 120, 221, 0.15); color: var(--color-intuition); }
+.bento-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.5rem; }
+.bento-card p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
+
+.bento-open-btn {
+    display: inline-block;
+    margin-top: 1.5rem;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: var(--color-logic);
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: transform 0.2s, color 0.2s;
+}
+.bento-open-btn:hover { transform: translateX(4px); color: var(--text-main); }
+
+.modal-state-gate { display: none !important; }
+.modal-overlay-view {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(10, 10, 12, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.modal-content-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 2.5rem;
+    width: 90%;
+    max-width: 550px;
+    position: relative;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    transform: translateY(20px);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.modal-close-x {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    font-size: 1.8rem;
+    font-weight: 300;
+    color: var(--text-muted);
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.2s;
+}
+.modal-close-x:hover { color: var(--color-ethics); }
+.modal-content-card h2 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; }
+.modal-divider { border: 0; height: 1px; background-color: var(--border-color); margin: 1.5rem 0; }
+.modal-content-card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 1rem; }
+.modal-content-card p:last-child { margin-bottom: 0; }
+
+#modal-scs:checked ~ .view-scs, #modal-sss:checked ~ .view-sss, #modal-wss:checked ~ .view-wss,
+#modal-shs:checked ~ .view-shs, #modal-sede:checked ~ .view-sede, #modal-sas:checked ~ .view-sas {
+    opacity: 1;
+    pointer-events: auto;
+}
+#modal-scs:checked ~ .view-scs .modal-content-card, #modal-sss:checked ~ .view-sss .modal-content-card,
+#modal-wss:checked ~ .view-wss .modal-content-card, #modal-shs:checked ~ .view-shs .modal-content-card,
+#modal-sede:checked ~ .view-sede .modal-content-card, #modal-sas:checked ~ .view-sas .modal-content-card {
+    transform: translateY(0);
+}
+
+/* ==========================================================================
+   4. Pure CSS Switching Automations & Core Display Engines
+   ========================================================================== */
+.modelg-icon { display: none !important; }
+.classical-icon { display: block !important; }
+
+#notation-modelg:checked ~ .homepage-container .classical-icon { display: none !important; }
+#notation-modelg:checked ~ .homepage-container .modelg-icon { display: block !important; }
+#notation-modelg:checked ~ .homepage-container .switch-slider-pill { transform: translateX(100%); }
+#notation-classical:checked ~ .homepage-container .btn-left, 
+#notation-modelg:checked ~ .homepage-container .btn-right { color: var(--bg-primary); }
+
+/* ==========================================================================
+   5. Responsive Breakpoints
+   ========================================================================== */
+@media (max-width: 850px) {
+    .ime-directory-grid, .bento-container-grid { grid-template-columns: 1fr; }
+    .bento-card.span-2 { grid-column: span 1; }
+    .models-layout-table th:nth-child(2), .models-layout-table td:nth-child(2) { display: none; }
+}
+
+
+/* Unique Amber Gold Theme for Talanov Quantitative Psychometrics */
+.bento-badge.paradigm-talanov { 
+    background-color: rgba(255, 179, 0, 0.15) !important; 
+    color: #ffb300 !important; 
+}
